@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <title> JSON Tree Viewer </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simple JSON Viewer that runs completely on-client. No data exchange">
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link href="json-viewer/dist/styles.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    h1 {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    #file {
+      visibility: hidden;
+    }
+
+    #home {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn {
+      background:  linear-gradient(180deg, #E4E4E4 0%, #F7F7F7 100%);
+      padding: 6px 12px;
+      border: 1px solid #000;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #title {
+      font-size: 2.5em
+    }
+
+    #subtitle {
+      font-size: 1.25em;
+      text-align: center;
+      padding: 0 .67em;
+    }
+
+    #errmsg {
+      color: #BF0E0E;
+      margin: 0;
+      text-align: center;
+    }
+
+    #spinner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    /* json viewer styles */
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .wrapper > * {
+      box-sizing: border-box;
+      padding: 0 .67em;
+    }
+    .wrapper h1 {
+      text-align: left;
+      margin-block-start: 0.67em;
+      margin-block-end: 0.67em;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      height: 28px;
+    }
+    .field {
+      color: #4E9590;
+      cursor: pointer;
+    }
+    .index {
+      color: #BFBFBF;
+      cursor: pointer;
+    }
+    .openbracket {
+      color: #F2CAB8;
+      font-weight: bold;
+    }
+    .closebracket {
+      color: #F2CAB8;
+      font-weight: bold;
+      transform: translateX(2px);
+    }
+    .display {
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .indent {
+      width: 1px;
+      height: 28px;
+      margin-left: 4px;
+      margin-right: 12px;
+      background-color: #BFBFBF;
+    }
+    .error {
+      background-color: #BF0E0E50;
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      border-radius: 6px;
+    }
+    .list {
+      max-width: 720px;
+      width: 100%;
+      height: 100%;
+      padding-right: 0;
+    }
+    .ReactVirtualized__Grid__innerScrollContainer {
+      width: 100% !important;
+      overflow-x: auto !important;
+      padding-bottom: 14px;
+    }
+    footer {
+      width: 100%;
+      max-width: 720px;
+      border-top: 1px solid #BFBFBF;
+      margin-top: 1em;
+    }
+    header {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      align-items: baseline;
+    }
+    #status {
+      display: flex;
+      width: 100%;
+      flex: 1;
+      animation-name: status-blink;
+      animation-duration: 1s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes status-blink {
+      0% { opacity: 0.25; }
+      50% { opacity: 1; }
+      100% { opacity: 0.25 }
+    }
+
+    :focus {
+      outline: 2px dotted #343434;
+      border-radius: 2px;
+    }
+
+    #filename {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="home">
+    <h1 id="title"> JSON Tree Viewer </h1>
+    <p id="subtitle"> Simple JSON Viewer that runs completely on-client. No data exchange </p>
+    <label id="input_label" for="file" class="btn" tabindex="0"> Load JSON </label>
+    <input id="file" type="file" title="Load JSON" onchange="handleFileInput()" />
+    <div id="spinner" style="display: none">
+      <p> Parsing JSON... </p>
+      <img loading="lazy" src="spinner.gif" height="64" width="64">
+    </div>
+    <p id="errmsg" style="display: none"></p>
+  </div>
+
+  <div id="json-viewer"></div>
+
+  <script async src="index.js"></script>
+  <script async src="json-viewer/dist/index.js"></script>
+</body>
+
+</html>
